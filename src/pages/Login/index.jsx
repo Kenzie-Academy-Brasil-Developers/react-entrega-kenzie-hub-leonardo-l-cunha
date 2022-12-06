@@ -9,8 +9,10 @@ import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
+import { useState } from "react"
  
 export const Login = () => {
+    const [ user , setUser ] = useState({})
     const navigate = useNavigate()
 
     const echma = yup.object().shape({
@@ -25,8 +27,7 @@ export const Login = () => {
     const loginApi = async (data)=> {
        try {
         const response = await api.post("sessions",data)
-        window.localStorage.clear()
-        window.localStorage.setItem("user",JSON.stringify(response.data))
+        setUser(response.data)
         toast.success("Login realizado com sucesso")
         setTimeout(()=> {
             navigate("/profile")
@@ -37,6 +38,9 @@ export const Login = () => {
     }
     const onSubmit = (data) => {
         loginApi(data)
+        window.localStorage.clear()
+        window.localStorage.setItem("@TOKEN",JSON.stringify(user.token))
+        window.localStorage.setItem("@USERID",JSON.stringify(user))
     }
     return (
         <>

@@ -18,7 +18,12 @@ export const Register = () => {
     const echma = yup.object().shape({
         name:yup.string().required("O nome e obrigatorio").min(4,"o minino de caracteres e 4"),
         email: yup.string().required("O email e obrigatorio").email("email invalido"),
-        password: yup.string().required("A senha e obrigatoria"),
+        password: yup.string().required("A senha e obrigatoria")
+        .matches(/(?=.*?[A-Z])/,"Pelo menos uma letra maiúscula")
+        .matches(/(?=.*?[a-z])/,"Pelo menos uma letra minúscula")
+        .matches(/(?=.*?[0-9])/,"pelo menos um numero")
+        .matches(/(?=.*?[#?!@$%^&*-])/,"Pelo menos um caractere especial")
+        .min(8,"pelo menos oito caracteres"),
         confirPass: yup.string().required("Confirmação da senha e obrigatoria").oneOf([yup.ref("password")], "As senhas devem ser a mesma "),
         bio: yup.string().required("Campo Obrigatio").min(10, "minimo de 10 caracteres").max(300,"maximo de 300 caracteres"),
         contact: yup.string().required("Campo obrigato")

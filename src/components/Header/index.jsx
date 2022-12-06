@@ -3,7 +3,7 @@ import img  from "../../pages/Register/Logo.svg"
 import { ContainerStyle, HeadStyle, NavStyle } from "./style"
 
 export const Header = () => {
-    const data = JSON.parse(window.localStorage.getItem("user"))
+    const data = JSON.parse(window.localStorage.getItem("@USERID"))
     const navigate = useNavigate()
     const clearLocal = () => {
         window.localStorage.clear()
