@@ -12,8 +12,8 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { useState } from "react"
  
 export const Login = () => {
-    const [ user , setUser ] = useState({})
     const navigate = useNavigate()
+    const [ user , setUser ] = useState({})
 
     const echma = yup.object().shape({
         email: yup.string().required("Email Obrigatoio").email("email invalido"),
@@ -27,20 +27,24 @@ export const Login = () => {
     const loginApi = async (data)=> {
        try {
         const response = await api.post("sessions",data)
-        setUser(response.data)
+        setUser(response.data.user)
+        
+        localStorage.clear()
+        localStorage.setItem("@TOKEN",JSON.stringify(response.data.token))
+        localStorage.setItem("@USERID",JSON.stringify(response.data.user))
         toast.success("Login realizado com sucesso")
         setTimeout(()=> {
+           
             navigate("/profile")
         },3000)
        } catch (error) {
         toast.error(error.response.data.message)
        }
     }
+    
     const onSubmit = (data) => {
         loginApi(data)
-        window.localStorage.clear()
-        window.localStorage.setItem("@TOKEN",JSON.stringify(user.token))
-        window.localStorage.setItem("@USERID",JSON.stringify(user))
+        
     }
     return (
         <>

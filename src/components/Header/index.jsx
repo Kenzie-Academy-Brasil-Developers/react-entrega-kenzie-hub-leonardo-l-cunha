@@ -3,16 +3,16 @@ import img  from "../../pages/Register/Logo.svg"
 import { ContainerStyle, HeadStyle, NavStyle } from "./style"
 
 export const Header = () => {
-    const data = JSON.parse(window.localStorage.getItem("@USERID"))
+    const data = JSON.parse(localStorage.getItem("@USERID"))
     const navigate = useNavigate()
     const clearLocal = () => {
-        window.localStorage.clear()
+        localStorage.clear()
         navigate("/")
     }
 
     return(
        <>
-         <NavStyle>
+        <NavStyle>
             <ContainerStyle>
                 <img src={img} alt="" />
                 <button onClick={clearLocal}>Sair</button>
@@ -20,8 +20,8 @@ export const Header = () => {
         </NavStyle>
         <HeadStyle>
             <ContainerStyle>
-            <h1>Olá, {data.user.name}</h1>
-            <span>{data.user.course_module}</span>
+            <h1>Olá, {data.name}</h1>
+            <span>{data.course_module}</span>
             </ContainerStyle>
             
         </HeadStyle>
