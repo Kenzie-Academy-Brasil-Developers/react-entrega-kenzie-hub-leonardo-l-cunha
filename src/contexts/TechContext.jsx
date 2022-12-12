@@ -14,8 +14,9 @@ export const TechProvider = ({ children }) => {
   const [openModal, setOpenModal] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
   const [editTech, setEditTech] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
+  useEffect(() => {}, [tech]);
   const createTech = async (body) => {
     const token = localStorage.getItem("@TOKEN");
 
@@ -34,19 +35,15 @@ export const TechProvider = ({ children }) => {
       });
       setTech([...tech, response.data]);
       setOpenModal(false);
-      setLoading(true);
+
       toast.promise(resolveAfter1Sec, {
         success: "Tecnologia  Criada",
       });
     } catch (error) {
       console.error(error);
-      toast.promise(resolveAfter1Sec, {
-        error: error,
-      });
+      toast.error(error.response.data.message);
     } finally {
       setOpenModal(false);
-
-      setLoading(true);
     }
   };
 
@@ -59,8 +56,7 @@ export const TechProvider = ({ children }) => {
     toast.promise(resolveAfter1Sec, {
       pending: "Carregando",
     });
-    console.log(tech);
-
+    setLoading(true);
     try {
       const response = await api.put(`/users/techs/${id}`, body, {
         headers: {
@@ -68,19 +64,23 @@ export const TechProvider = ({ children }) => {
         },
       });
       console.log(response.data);
-      setTech([...tech, { status: response.data.status }]);
+      const indexItem = tech.findIndex((item) => {
+        return item.id === id;
+      });
+      tech[indexItem] = response.data;
+      setTech(tech);
       setModalEdit(false);
-      setLoading(false);
+
       toast.promise(resolveAfter1Sec, {
         success: "Tecnologia  Atualizada",
       });
     } catch (error) {
       console.error(error);
       toast.promise(resolveAfter1Sec, {
-        error: error,
+        error: error.message,
       });
     } finally {
-      setLoading(true);
+      setLoading(false);
     }
   };
   const deleteTech = async (id) => {
@@ -92,14 +92,18 @@ export const TechProvider = ({ children }) => {
     toast.promise(resolveAfter1Sec, {
       pending: "Carregando",
     });
-
+    setLoading(true);
     try {
       const response = await api.delete(`/users/techs/${id}`, {
         headers: {
           authorization: `Bearer ${token}`,
         },
       });
-      setTech([...tech, response.data]);
+
+      const newList = tech.filter((list) => {
+        return list.id !== id;
+      });
+      setTech(newList);
       toast.promise(resolveAfter1Sec, {
         success: "Tecnologia  excluida",
       });
@@ -109,6 +113,7 @@ export const TechProvider = ({ children }) => {
         error: error,
       });
     } finally {
+      setLoading(false);
     }
   };
   return (
@@ -125,6 +130,7 @@ export const TechProvider = ({ children }) => {
         setEditTech,
         putEditTech,
         deleteTech,
+        loading,
       }}
     >
       {children}
