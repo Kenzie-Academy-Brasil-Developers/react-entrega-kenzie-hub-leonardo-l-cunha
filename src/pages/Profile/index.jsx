@@ -55,17 +55,21 @@ export const Profile = () => {
                 +
               </button>
             </div>
-            <UlStyle>
-              {!loading &&
-                tech.map((element, index) => (
-                  <LiStyle key={index} onClick={() => editDel(element)}>
-                    <h3>{element.title}</h3>
-                    <div>
-                      <span>{element.status}</span>
-                    </div>
-                  </LiStyle>
-                ))}
-            </UlStyle>
+            {tech.length === 0 ? (
+              <h2>Nenhuma tecnologia cadastrada </h2>
+            ) : (
+              <UlStyle>
+                {!loading &&
+                  tech.map((element, index) => (
+                    <LiStyle key={index} onClick={() => editDel(element)}>
+                      <h3>{element.title}</h3>
+                      <div>
+                        <span>{element.status}</span>
+                      </div>
+                    </LiStyle>
+                  ))}
+              </UlStyle>
+            )}
           </SectionStyle>
         </MainStyle>
       </Container>

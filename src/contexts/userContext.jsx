@@ -9,6 +9,7 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [background, setBackground] = useState(true);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -46,6 +47,7 @@ export const UserProvider = ({ children }) => {
       api.defaults.headers.common.authorization = `Bearer ${token}`;
       toast.success("Login realizado com sucesso");
       setTimeout(() => {
+        setBackground(false);
         navigate("/profile");
       }, 3000);
     } catch (error) {
@@ -71,7 +73,16 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <userContexts.Provider value={{ user, loginApi, registerApi, loading }}>
+    <userContexts.Provider
+      value={{
+        user,
+        loginApi,
+        registerApi,
+        loading,
+        background,
+        setBackground,
+      }}
+    >
       {children}
     </userContexts.Provider>
   );

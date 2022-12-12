@@ -56,6 +56,13 @@ export const SectionStyle = styled.section`
         color:var(--color-background);
         font-size:28px;
     }
+
+    && h2 {
+        font-size:var(--font-size-3);
+        font-weight:var(--font-weight-1);
+        color:var(--color-grey-0);
+        text-align:center;
+    }
 `
 export const UlStyle = styled.ul`
     margin-top:28px;
