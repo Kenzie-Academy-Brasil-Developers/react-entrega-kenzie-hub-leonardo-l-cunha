@@ -29,6 +29,8 @@ export const  GlobalStyle = createGlobalStyle`
     }
     :root {
     --color-background: #FFFFFF;
+    --color-background-1:#212529;
+    --color-background-2:rgba (0,0,0,.25);
     --color-primary: #FF577F;
     --color-primary-focus: #FF427F;
     --color-primary-negative: #59323F;
@@ -39,6 +41,7 @@ export const  GlobalStyle = createGlobalStyle`
     --color-grey-4: #121214;
     --negative: #E83F5B;
     --sucess:##3FE864;
+    
    
     --font-weight: 700;
     --font-weight-1: 600;

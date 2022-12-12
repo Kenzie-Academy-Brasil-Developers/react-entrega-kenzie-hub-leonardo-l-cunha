@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { Button } from "../../components/Button"
 import { Input } from "../../components/Input"
 import { DivHead, FormStyled, SpanErro } from "./style"
@@ -6,15 +6,14 @@ import  img  from "./Logo.svg"
 import { useForm } from "react-hook-form"
 import  * as yup  from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { api } from "../../services/api"
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { useState } from "react"
+import { useContext } from "react"
+import { userContexts } from "../../contexts/userContext"
 
 export const Register = () => {
-    const navigate = useNavigate()
-    const [loading, setLoading] = useState(false); 
-    
+    const { loading,registerApi } = useContext(userContexts)
+   
     const echma = yup.object().shape({
         name:yup.string().required("O nome e obrigatorio").min(4,"o minino de caracteres e 4"),
         email: yup.string().required("O email e obrigatorio").email("email invalido"),
@@ -34,22 +33,6 @@ export const Register = () => {
         resolver: yupResolver(echma)
     })
 
-    const registerApi = async(data) => {
-       try {
-        setLoading(true)
-        const response = await api.post("users",data)
-        console.log(response)
-        toast.success("Conta criada com sucesso")
-        setTimeout(()=> {
-            navigate("/")
-        },3000)
-       } catch (error) {
-        console.log(error.response)
-        toast.error(error.response.data.message)
-       }finally{
-        setLoading(false)
-       }
-    }
     const onSubmit = (data) => {
         registerApi(data)
        

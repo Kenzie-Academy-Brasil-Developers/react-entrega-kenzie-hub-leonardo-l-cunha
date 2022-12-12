@@ -1,9 +1,12 @@
+import { useContext } from "react"
 import { useNavigate } from "react-router-dom"
+import { userContexts } from "../../contexts/userContext"
 import img  from "../../pages/Register/Logo.svg"
 import { ContainerStyle, HeadStyle, NavStyle } from "./style"
 
 export const Header = () => {
-    const data = JSON.parse(localStorage.getItem("@USERID"))
+    const { user } = useContext(userContexts)
+    
     const navigate = useNavigate()
     const clearLocal = () => {
         localStorage.clear()
@@ -20,8 +23,8 @@ export const Header = () => {
         </NavStyle>
         <HeadStyle>
             <ContainerStyle>
-            <h1>Olá, {data.name}</h1>
-            <span>{data.course_module}</span>
+            <h1>Olá, {user.name} </h1>
+            <span>{user.course_module}</span>
             </ContainerStyle>
             
         </HeadStyle>

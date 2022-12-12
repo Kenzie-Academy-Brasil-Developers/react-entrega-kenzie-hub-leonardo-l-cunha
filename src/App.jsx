@@ -1,14 +1,13 @@
-import { BackgroudAnimate } from './components/Backgroud';
-import { GlobalStyle } from './styles/global.js'
-import { RoutesMain as Routes} from './routes'
-
+import { BackgroudAnimate } from "./components/Backgroud";
+import { GlobalStyle } from "./styles/global.js";
+import { RoutesMain as Routes } from "./routes";
 
 function App() {
   return (
     <>
-      <GlobalStyle/>
-      <BackgroudAnimate/>
-      <Routes/> 
+      <GlobalStyle />
+      <BackgroudAnimate />
+      <Routes />
     </>
   );
 }

@@ -1,19 +1,20 @@
 import { useForm } from "react-hook-form"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate} from "react-router-dom"
 import { Button} from "../../components/Button"
 import { BtnRegister } from "../../components/Button/Button Register"
 import { Input } from "../../components/Input"
-import { api } from "../../services/api"
 import { ErroLogin, FormStyle } from "./style"
-import { toast, ToastContainer } from 'react-toastify';
+import {ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { useState } from "react"
+import { useContext } from "react"
+import { userContexts } from "../../contexts/userContext"
+
  
 export const Login = () => {
-    const navigate = useNavigate()
-    const [ user , setUser ] = useState({})
+    const {loginApi} = useContext(userContexts)
+   
 
     const echma = yup.object().shape({
         email: yup.string().required("Email Obrigatoio").email("email invalido"),
@@ -24,24 +25,7 @@ export const Login = () => {
         resolver: yupResolver(echma)
     })
 
-    const loginApi = async (data)=> {
-       try {
-        const response = await api.post("sessions",data)
-        setUser(response.data.user)
-        
-        localStorage.clear()
-        localStorage.setItem("@TOKEN",JSON.stringify(response.data.token))
-        localStorage.setItem("@USERID",JSON.stringify(response.data.user))
-        toast.success("Login realizado com sucesso")
-        setTimeout(()=> {
-           
-            navigate("/profile")
-        },3000)
-       } catch (error) {
-        toast.error(error.response.data.message)
-       }
-    }
-    
+   
     const onSubmit = (data) => {
         loginApi(data)
         
